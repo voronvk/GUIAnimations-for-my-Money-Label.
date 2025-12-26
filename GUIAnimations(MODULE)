@@ -1,0 +1,39 @@
+local TweenService = game:GetService("TweenService")
+
+local GUIAnimations = {}
+
+function GUIAnimations.animateMoneyLabel(moneyLabel)
+
+	local uiScale = moneyLabel:FindFirstChild("UIScale")
+	if not uiScale then
+		uiScale = Instance.new("UIScale")
+		uiScale.Parent = moneyLabel
+		uiScale.Scale = 1
+	end
+
+	-- escalar
+	local tweenInfo = TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out)
+
+	-- el color
+	local gradient = moneyLabel:FindFirstChildOfClass("UIGradient")
+	if not gradient then
+		gradient = Instance.new("UIGradient")
+		gradient.Parent = moneyLabel
+		gradient.Offset = Vector2.new(0,0)
+	end
+
+	-- animacion
+	local growTween = TweenService:Create(uiScale, tweenInfo, {Scale = 1.2})
+	local gradientTween = TweenService:Create(gradient, tweenInfo, {Offset = Vector2.new(-1,0)})
+
+	growTween:Play()
+	gradientTween:Play()
+
+	gradientTween.Completed:Connect(function()
+		-- Volver a normal
+		TweenService:Create(uiScale, tweenInfo, {Scale = 1}):Play()
+		TweenService:Create(gradient, tweenInfo, {Offset = Vector2.new(0,0)}):Play()
+	end)
+end
+
+return GUIAnimations

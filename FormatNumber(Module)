@@ -1,0 +1,15 @@
+local module = {}
+
+function module.formatNumberDecimals(num)
+	if num >= 1_000_000_000 then
+		return string.format("%.1fB", num / 1_000_000_000)
+	elseif num >= 1_000_000 then
+		return string.format("%.1fM", num / 1_000_000)
+	elseif num >= 1_000 then
+		return string.format("%.1fK", num / 1_000)
+	else
+		return string.format("%.2f", num)
+	end
+end
+
+return module

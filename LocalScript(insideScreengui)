@@ -1,0 +1,36 @@
+local player = game.Players.LocalPlayer
+local moneyFrame = script.Parent.Money
+local moneyLabel = moneyFrame:WaitForChild("MoneyLabel")
+
+local moneyStat = player:WaitForChild("leaderstats"):WaitForChild("Cash")
+
+
+local formatNumber = require(game.ReplicatedStorage.FormatNumber)
+local GUIAnimations = require(game.ReplicatedStorage.GUIAnimations)
+
+local function updateMoney()
+	local leaderstats = player:FindFirstChild("leaderstats")
+	if leaderstats then
+		local cash = leaderstats:FindFirstChild("Cash") 
+		if cash then
+			moneyLabel.Text = "$ " .. formatNumber.formatNumberDecimals(cash.Value)
+			
+			cash.Changed:Connect(function(newValue)
+				moneyLabel.Text = "$ " .. formatNumber.formatNumberDecimals(newValue)
+			end)
+		end
+	end
+end
+
+
+
+local GUIAnimations = require(game.ReplicatedStorage.GUIAnimations)
+
+
+
+moneyStat.Changed:Connect(function()
+	GUIAnimations.animateMoneyLabel(moneyLabel)
+end)
+
+player:WaitForChild("leaderstats")
+updateMoney()
